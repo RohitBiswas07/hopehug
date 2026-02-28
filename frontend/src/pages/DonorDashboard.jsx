@@ -5,7 +5,7 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import { useAuth } from '../context/AuthContext';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = '/api';
 
 const statusColors = {
     pending: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
@@ -87,7 +87,7 @@ export default function DonorDashboard() {
 
     useEffect(() => {
         fetchDonations();
-        const socket = io('http://localhost:5000');
+        const socket = io('');
         socket.emit('join', user?._id || user?.id);
         socket.on('donation:verified', (data) => {
             showToast(`🎉 ${data.message}`, 'success');
@@ -239,7 +239,7 @@ export default function DonorDashboard() {
                                     <div className="mt-5">
                                         <p className="text-gray-400 text-xs mb-2">Payment Screenshot</p>
                                         <img
-                                            src={`http://localhost:5000${selectedDonation.screenshotPath}`}
+                                            src={`${selectedDonation.screenshotPath}`}
                                             alt="Payment proof"
                                             className="w-full rounded-xl border border-white/10 object-cover max-h-32"
                                         />

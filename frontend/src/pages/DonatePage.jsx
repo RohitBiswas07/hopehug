@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = '/api';
 
 const StepIndicator = ({ current, total }) => (
     <div className="flex items-center justify-center gap-3 mb-10">

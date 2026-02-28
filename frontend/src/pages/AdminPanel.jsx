@@ -8,7 +8,7 @@ import {
 } from 'recharts';
 import { useAuth } from '../context/AuthContext';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = '/api';
 
 const StatusBadge = ({ status }) => {
     const colors = {
@@ -385,7 +385,7 @@ export default function AdminPanel() {
                                         </div>
                                         <div className="flex flex-col gap-2 items-end">
                                             {d.screenshotPath && (
-                                                <a href={`http://localhost:5000${d.screenshotPath}`} target="_blank" rel="noopener noreferrer"
+                                                <a href={`${d.screenshotPath}`} target="_blank" rel="noopener noreferrer"
                                                     className="px-3 py-1.5 glass rounded-lg text-xs text-gray-300 hover:text-gold border border-white/10 hover:border-gold/30">
                                                     📸 View Screenshot
                                                 </a>
@@ -583,7 +583,7 @@ export default function AdminPanel() {
                                         <tr key={c._id} className="border-b border-white/5">
                                             <td className="py-3 pr-4">
                                                 {c.images && c.images[0] ? (
-                                                    <img src={`http://localhost:5000${c.images[0]}`} alt="" className="w-12 h-12 rounded-lg object-cover" />
+                                                    <img src={`${c.images[0]}`} alt="" className="w-12 h-12 rounded-lg object-cover" />
                                                 ) : (
                                                     <div className="w-12 h-12 rounded-lg flex items-center justify-center text-gold font-bold text-sm"
                                                         style={{ background: 'linear-gradient(135deg, #1a2456, #2d3a8c)' }}>

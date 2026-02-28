@@ -6,7 +6,7 @@ import {
     LineChart, Line
 } from 'recharts';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = '/api';
 
 const getHeaders = () => ({
     Authorization: `Bearer ${localStorage.getItem('hopehug_admin_token')}`,
@@ -486,7 +486,7 @@ export default function AdminDashboard() {
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
                                         <div style={{ width: '200px', height: '200px', background: '#222', borderRadius: '8px', overflow: 'hidden', border: '1px solid #333' }}>
                                             <img
-                                                src={`http://localhost:5000/public/qr-codes/upi-qr.png?t=${Date.now()}`}
+                                                src={`/public/qr-codes/upi-qr.png?t=${Date.now()}`}
                                                 alt="Current QR"
                                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                                 onError={(e) => { e.target.src = 'https://via.placeholder.com/200?text=No+QR+Found'; }}
@@ -547,7 +547,7 @@ export default function AdminDashboard() {
                                             <td style={{ ...s.td, fontFamily: "'IBM Plex Mono', monospace", fontSize: '11px' }}>{d.utrId || '—'}</td>
                                             <td style={s.td}>
                                                 {d.screenshotPath ? (
-                                                    <button onClick={() => setScreenshotModal(`http://localhost:5000${d.screenshotPath}`)} style={{
+                                                    <button onClick={() => setScreenshotModal(`${d.screenshotPath}`)} style={{
                                                         ...s.btn, background: '#1a1a1a', color: '#888', border: '1px solid #2a2a2a', padding: '4px 10px',
                                                     }}>👁 View</button>
                                                 ) : <span style={{ color: '#444' }}>—</span>}
@@ -594,7 +594,7 @@ export default function AdminDashboard() {
                                             onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
                                             <td style={s.td}>
                                                 {c.images?.[0] ? (
-                                                    <img src={`http://localhost:5000${c.images[0]}`} alt="" style={{ width: '40px', height: '40px', borderRadius: '6px', objectFit: 'cover' }} />
+                                                    <img src={`${c.images[0]}`} alt="" style={{ width: '40px', height: '40px', borderRadius: '6px', objectFit: 'cover' }} />
                                                 ) : (
                                                     <div style={{ width: '40px', height: '40px', borderRadius: '6px', background: '#222', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#C0392B', fontSize: '12px', fontWeight: 700 }}>
                                                         {c.title?.slice(0, 2).toUpperCase()}
@@ -649,7 +649,7 @@ export default function AdminDashboard() {
                                             <td style={s.td}>{n.userId?.email}</td>
                                             <td style={s.td}>
                                                 {n.documents?.length > 0 ? (
-                                                    <button onClick={() => setScreenshotModal(`http://localhost:5000${n.documents[0]}`)}
+                                                    <button onClick={() => setScreenshotModal(`${n.documents[0]}`)}
                                                         style={{ ...s.btn, background: '#1a1a1a', color: '#888', border: '1px solid #2a2a2a', padding: '4px 10px' }}>
                                                         📄 View ({n.documents.length})
                                                     </button>

@@ -4,7 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = '/api';
 
 const handleDonateClick = (causeId, user, navigate) => {
     if (user && user.role === 'donor') {
@@ -158,7 +158,7 @@ const CauseCard = ({ cause }) => {
             className="rounded-2xl overflow-hidden glass border border-white/10 hover:border-gold/30 transition-all duration-300"
         >
             {cause.images && cause.images[0] ? (
-                <img src={`http://localhost:5000${cause.images[0]}`} alt={cause.title} className="w-full h-48 object-cover" />
+                <img src={`${cause.images[0]}`} alt={cause.title} className="w-full h-48 object-cover" />
             ) : (
                 <GradientPlaceholder title={cause.title} />
             )}

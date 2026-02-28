@@ -53,8 +53,11 @@ app.use('/api/stats', statsRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/subscribe', subscribeRoutes);
 
-app.get('/', (req, res) => {
-  res.json({ message: 'HopeHug API is running' });
+// Serve React Frontend in Production
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
 });
 
 io.on('connection', (socket) => {
