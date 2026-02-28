@@ -371,7 +371,7 @@ export default function AdminDashboard() {
                     {sideItems.map((item) => (
                         <button key={item.key} onClick={() => setActiveTab(item.key)} style={{
                             display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '8px',
-                            border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 500, textAlign: 'left', width: '100%',
+                            cursor: 'pointer', fontSize: '13px', fontWeight: 500, textAlign: 'left', width: '100%',
                             background: activeTab === item.key ? 'rgba(192,57,43,0.12)' : 'transparent',
                             color: activeTab === item.key ? '#C0392B' : '#888',
                             border: activeTab === item.key ? '1px solid rgba(192,57,43,0.2)' : '1px solid transparent',
