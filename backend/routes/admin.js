@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { adminLogin, createAdmin, listAdmins, removeAdmin, registerAdmin, uploadQr, getSubscribers } = require('../controllers/adminController');
-const { adminProtect } = require('../middleware/adminAuth');
+const adminProtect = require('../middleware/adminAuth');
 const { uploadQrCode } = require('../utils/upload');
 
 router.post('/login', adminLogin);
