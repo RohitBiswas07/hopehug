@@ -109,5 +109,12 @@ const registerAdmin = async (req, res) => {
     });
 };
 
-module.exports = { adminLogin, createAdmin, listAdmins, removeAdmin, registerAdmin };
+const uploadQr = async (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'Please upload an image file.' });
+    }
+    res.json({ message: 'QR Code updated successfully.', path: `/public/qr-codes/${req.file.filename}` });
+};
+
+module.exports = { adminLogin, createAdmin, listAdmins, removeAdmin, registerAdmin, uploadQr };
 

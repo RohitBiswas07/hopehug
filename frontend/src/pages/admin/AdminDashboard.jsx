@@ -190,6 +190,23 @@ export default function AdminDashboard() {
         } catch (err) { showToast(err.response?.data?.error || 'Failed.', 'error'); }
     };
 
+    const handleQrUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        setSubmitting(true);
+        const fd = new FormData();
+        fd.append('qrCode', file);
+        try {
+            await axios.post(`${API_BASE}/admin/upload-qr`, fd, { headers: { ...getHeaders(), 'Content-Type': 'multipart/form-data' } });
+            showToast('UPI QR Code updated successfully!');
+            // Force reload the image on the clients by appending a timestamp
+            setTimeout(() => window.location.reload(), 1500);
+        } catch {
+            showToast('Failed to update QR Code.', 'error');
+            setSubmitting(false);
+        }
+    };
+
     const filteredDons = donations.filter((d) => {
         const matchStatus = statusFilter === 'all' || d.status === statusFilter;
         const matchSearch = !searchTerm || d.donorId?.name?.toLowerCase().includes(searchTerm.toLowerCase()) || d.utrId?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -438,20 +455,54 @@ export default function AdminDashboard() {
                             </div>
                         </div>
 
-                        <div style={s.card}>
-                            <h3 style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '14px', color: '#fff', marginBottom: '16px' }}>Recent Activity</h3>
-                            {donations.slice(0, 10).map((d) => (
-                                <div key={d._id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #1a1a1a' }}>
-                                    <div>
-                                        <span style={{ color: '#ccc', fontSize: '13px' }}>{d.donorId?.name}</span>
-                                        <span style={{ color: '#555', fontSize: '12px' }}> → {d.causeId?.title?.slice(0, 25)}</span>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                            <div style={s.card}>
+                                <h3 style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '14px', color: '#fff', marginBottom: '16px' }}>Recent Activity</h3>
+                                {donations.slice(0, 10).map((d) => (
+                                    <div key={d._id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #1a1a1a' }}>
+                                        <div>
+                                            <span style={{ color: '#ccc', fontSize: '13px' }}>{d.donorId?.name}</span>
+                                            <span style={{ color: '#555', fontSize: '12px' }}> → {d.causeId?.title?.slice(0, 25)}</span>
+                                        </div>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                            <span style={{ color: '#fff', fontSize: '13px', fontWeight: 600 }}>₹{d.amount?.toLocaleString('en-IN')}</span>
+                                            <StatusBadge status={d.status} />
+                                        </div>
                                     </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                        <span style={{ color: '#fff', fontSize: '13px', fontWeight: 600 }}>₹{d.amount?.toLocaleString('en-IN')}</span>
-                                        <StatusBadge status={d.status} />
+                                ))}
+                            </div>
+
+                            <div style={s.card}>
+                                <h3 style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '14px', color: '#fff', marginBottom: '16px' }}>Platform Settings</h3>
+
+                                <div style={{ background: '#111', border: '1px solid #222', borderRadius: '10px', padding: '16px' }}>
+                                    <p style={{ color: '#ccc', fontSize: '13px', fontWeight: 600, marginBottom: '4px' }}>Update Global UPI QR Code</p>
+                                    <p style={{ color: '#666', fontSize: '11px', marginBottom: '16px' }}>This QR code will be shown to all donors during payment.</p>
+
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+                                        <div style={{ width: '200px', height: '200px', background: '#222', borderRadius: '8px', overflow: 'hidden', border: '1px solid #333' }}>
+                                            <img
+                                                src={`http://localhost:5000/public/qr-codes/upi-qr.png?t=${Date.now()}`}
+                                                alt="Current QR"
+                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                                onError={(e) => { e.target.src = 'https://via.placeholder.com/200?text=No+QR+Found'; }}
+                                            />
+                                        </div>
+                                        <div style={{ flex: 1 }}>
+                                            <label style={{
+                                                display: 'block', border: `1px dashed #444`,
+                                                borderRadius: '8px', padding: '12px', textAlign: 'center', cursor: 'pointer',
+                                                background: 'transparent', transition: 'all 0.2s',
+                                            }}>
+                                                <p style={{ color: '#888', fontSize: '12px', margin: 0, fontFamily: "'IBM Plex Mono', monospace" }}>
+                                                    {submitting ? 'Uploading...' : 'Click to Replace Image'}
+                                                </p>
+                                                <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleQrUpload} disabled={submitting} />
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                            ))}
+                            </div>
                         </div>
                     </div>
                 )}

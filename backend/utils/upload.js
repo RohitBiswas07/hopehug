@@ -38,6 +38,18 @@ const causeImageStorage = multer.diskStorage({
     },
 });
 
+const qrStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const dir = path.join(__dirname, '../../public/qr-codes');
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        cb(null, dir);
+    },
+    filename: (req, file, cb) => {
+        // Force overwrite the same file so frontend doesn't need DB changes
+        cb(null, 'upi-qr.png');
+    },
+});
+
 const imageFilter = (req, file, cb) => {
     if (file.mimetype.startsWith('image/')) {
         cb(null, true);
@@ -49,5 +61,6 @@ const imageFilter = (req, file, cb) => {
 const uploadScreenshot = multer({ storage: screenshotStorage, fileFilter: imageFilter });
 const uploadDocument = multer({ storage: documentStorage });
 const uploadCauseImages = multer({ storage: causeImageStorage, fileFilter: imageFilter });
+const uploadQrCode = multer({ storage: qrStorage, fileFilter: imageFilter });
 
-module.exports = { uploadScreenshot, uploadDocument, uploadCauseImages };
+module.exports = { uploadScreenshot, uploadDocument, uploadCauseImages, uploadQrCode };

@@ -11,8 +11,8 @@ const StepIndicator = ({ current, total }) => (
         {Array.from({ length: total }).map((_, i) => (
             <div key={i} className="flex items-center gap-3">
                 <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${i < current ? 'bg-gold text-navy' :
-                        i === current ? 'border-2 border-gold text-gold glass-gold' :
-                            'border border-white/20 text-gray-500'
+                    i === current ? 'border-2 border-gold text-gold glass-gold' :
+                        'border border-white/20 text-gray-500'
                     }`}>
                     {i < current ? '✓' : i + 1}
                 </div>
@@ -211,12 +211,13 @@ export default function DonatePage() {
                             <h2 className="font-display text-2xl font-bold text-gold mb-2">Step 2: Make Payment</h2>
                             <p className="text-gray-400 mb-6">Scan the QR code and pay ₹{amount}</p>
                             <div className="inline-block glass-gold rounded-2xl p-6 mb-6">
-                                <div className="w-48 h-48 bg-white rounded-xl flex items-center justify-center mx-auto">
-                                    <div className="text-center">
-                                        <div className="text-4xl mb-2">📱</div>
-                                        <div className="text-xs text-navy font-bold">UPI QR Code</div>
-                                        <div className="text-xs text-gray-500 mt-1">hopehug@upi</div>
-                                    </div>
+                                <div className="w-56 h-56 bg-white rounded-xl flex items-center justify-center mx-auto overflow-hidden p-2">
+                                    <img
+                                        src={`${API_BASE.replace('/api', '')}/public/qr-codes/upi-qr.png?t=${Date.now()}`}
+                                        alt="UPI QR Code"
+                                        className="w-full h-full object-contain"
+                                        onError={(e) => { e.target.src = 'https://via.placeholder.com/200?text=No+QR+Uploaded'; }}
+                                    />
                                 </div>
                             </div>
                             <div className="glass-gold rounded-xl p-5 mb-6 text-left space-y-2">
