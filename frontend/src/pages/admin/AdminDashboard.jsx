@@ -44,6 +44,7 @@ export default function AdminDashboard() {
     const [causes, setCauses] = useState([]);
     const [ngos, setNGOs] = useState([]);
     const [admins, setAdmins] = useState([]);
+    const [subscribers, setSubscribers] = useState([]);
     const [stats, setStats] = useState({});
     const [loading, setLoading] = useState(true);
     const [toast, setToast] = useState(null);
@@ -69,18 +70,20 @@ export default function AdminDashboard() {
     const load = async () => {
         try {
             const h = { headers: getHeaders() };
-            const [donRes, statsRes, causeRes, ngoRes, adminRes] = await Promise.all([
+            const [donRes, statsRes, causeRes, ngoRes, adminRes, subRes] = await Promise.all([
                 axios.get(`${API_BASE}/donation/all`, h),
                 axios.get(`${API_BASE}/stats`),
                 axios.get(`${API_BASE}/cause/all`, h),
                 axios.get(`${API_BASE}/ngo/all`, h),
                 axios.get(`${API_BASE}/admin/list`, h),
+                axios.get(`${API_BASE}/admin/subscribers`, h),
             ]);
             setDonations(donRes.data);
             setStats(statsRes.data);
             setCauses(causeRes.data);
             setNGOs(ngoRes.data);
             setAdmins(adminRes.data);
+            setSubscribers(subRes.data);
         } catch (err) {
             if (err.response?.status === 401 || err.response?.status === 403) {
                 localStorage.removeItem('hopehug_admin_token');
@@ -247,6 +250,7 @@ export default function AdminDashboard() {
         { key: 'causes', icon: '📋', label: 'Causes' },
         { key: 'ngos', icon: '🏢', label: 'NGOs' },
         { key: 'admins', icon: '👤', label: 'Manage Admins' },
+        { key: 'subscribers', icon: '📬', label: 'Subscribers' },
     ];
 
     return (
@@ -756,6 +760,36 @@ export default function AdminDashboard() {
                             <p style={{ color: '#444', fontSize: '11px', marginTop: '16px', fontFamily: "'IBM Plex Mono', monospace" }}>
                                 🔒 New admin credentials must be shared securely. This platform does not send automated emails for admin accounts.
                             </p>
+                        </div>
+                    </div>
+                )}
+
+                {activeTab === 'subscribers' && (
+                    <div>
+                        <h1 style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '24px', color: '#fff', marginBottom: '20px' }}>Newsletter Subscribers</h1>
+                        <div style={s.card}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                                <h3 style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '14px', color: '#fff', margin: 0 }}>Total Subscribers: {subscribers.length}</h3>
+                            </div>
+                            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                                <thead>
+                                    <tr>
+                                        <th style={s.th}>Email Address</th>
+                                        <th style={s.th}>Subscribed Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {subscribers.map((sub) => (
+                                        <tr key={sub._id}
+                                            onMouseEnter={(e) => e.currentTarget.style.background = '#1a1a1a'}
+                                            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
+                                            <td style={{ ...s.td, color: '#fff', fontWeight: 500 }}>{sub.email}</td>
+                                            <td style={{ ...s.td, color: '#888', fontSize: '12px' }}>{new Date(sub.subscribedAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                            {subscribers.length === 0 && <p style={{ color: '#444', textAlign: 'center', padding: '32px 0', fontSize: '13px' }}>No subscribers yet.</p>}
                         </div>
                     </div>
                 )}

@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const Admin = require('../models/Admin');
+const Subscriber = require('../models/Subscriber');
 
 const adminLogin = async (req, res) => {
     const { email, password } = req.body;
@@ -110,11 +111,25 @@ const registerAdmin = async (req, res) => {
 };
 
 const uploadQr = async (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ error: 'Please upload an image file.' });
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'Please upload an image file' });
+        }
+        res.status(200).json({ message: 'UPI QR Code updated successfully', path: `/public/qr-codes/${req.file.filename}` });
+    } catch (err) {
+        console.error('Error uploading QR code:', err);
+        res.status(500).json({ error: 'Server error' });
     }
-    res.json({ message: 'QR Code updated successfully.', path: `/public/qr-codes/${req.file.filename}` });
 };
 
-module.exports = { adminLogin, createAdmin, listAdmins, removeAdmin, registerAdmin, uploadQr };
+const getSubscribers = async (req, res) => {
+    try {
+        const subscribers = await Subscriber.find().sort({ subscribedAt: -1 });
+        res.json(subscribers);
+    } catch (err) {
+        console.error('Error fetching subscribers:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
 
+module.exports = { adminLogin, createAdmin, listAdmins, removeAdmin, registerAdmin, uploadQr, getSubscribers };

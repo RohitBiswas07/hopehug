@@ -43,6 +43,7 @@ const causeRoutes = require('./routes/cause');
 const ngoRoutes = require('./routes/ngo');
 const statsRoutes = require('./routes/stats');
 const adminRoutes = require('./routes/admin');
+const subscribeRoutes = require('./routes/subscribe');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/donation', donationRoutes);
@@ -50,6 +51,7 @@ app.use('/api/cause', causeRoutes);
 app.use('/api/ngo', ngoRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/subscribe', subscribeRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'HopeHug API is running' });

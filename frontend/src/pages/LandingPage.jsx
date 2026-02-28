@@ -659,10 +659,23 @@ export default function LandingPage() {
                                     className="flex-1 px-4 py-3 rounded-l-full bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-gold/50 text-sm"
                                 />
                                 <button
-                                    className="btn-primary rounded-r-full rounded-l-none px-6 py-3 text-sm whitespace-nowrap"
-                                    onClick={() => { if (email) setSubscribed(true); }}
+                                    className={`btn-primary rounded-r-full rounded-l-none px-6 py-3 text-sm whitespace-nowrap ${subscribed ? 'bg-green-500 text-white border-green-500' : ''}`}
+                                    disabled={subscribed || !email}
+                                    onClick={async () => {
+                                        if (email && email.includes('@')) {
+                                            try {
+                                                await axios.post(`${API_BASE}/subscribe`, { email });
+                                                setSubscribed(true);
+                                                setEmail('');
+                                            } catch (err) {
+                                                alert('Failed to subscribe or already subscribed.');
+                                            }
+                                        } else {
+                                            alert('Please enter a valid email.');
+                                        }
+                                    }}
                                 >
-                                    {subscribed ? '✓' : 'Subscribe'}
+                                    {subscribed ? 'Subscribed ✓' : 'Subscribe'}
                                 </button>
                             </div>
                         </div>
@@ -679,7 +692,7 @@ export default function LandingPage() {
                         <div>
                             <h4 className="text-white font-semibold mb-4">Connect</h4>
                             <ul className="space-y-2 text-gray-400 text-sm">
-                                {['📧 contact@hopehug.in', '📞 +91 98765 43210', '📍 Kolkata, West Bengal', '🌐 www.hopehug.in'].map((item) => (
+                                {['📧 rbrohitbiswas07@gmail.com', '📞 +91 8700450195', '📍 Delhi, India', '🌐 https://hopehug.vercel.app/'].map((item) => (
                                     <li key={item}>{item}</li>
                                 ))}
                             </ul>
