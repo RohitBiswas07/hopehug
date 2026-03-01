@@ -7,7 +7,10 @@ const createCause = async (req, res) => {
         return res.status(400).json({ error: 'title, description and goalAmount are required.' });
     }
 
-    const images = req.files ? req.files.map((f) => `/public/uploads/causes/${f.filename}`) : [];
+    const images = req.files ? req.files.map((f) => ({
+        data: f.buffer.toString('base64'),
+        contentType: f.mimetype,
+    })) : [];
 
     const cause = await Cause.create({
         title,
@@ -25,12 +28,14 @@ const createCause = async (req, res) => {
 const getCauses = async (req, res) => {
     const { status } = req.query;
     const filter = status ? { status } : { status: 'active' };
-    const causes = await Cause.find(filter).populate('ngoId', 'name').sort({ createdAt: -1 });
+    const causes = await Cause.find(filter).populate('ngoId', 'name').sort({ createdAt: -1 })
+        .select('-images.data');
     res.json(causes);
 };
 
 const getAllCauses = async (req, res) => {
-    const causes = await Cause.find().populate('ngoId', 'name').sort({ createdAt: -1 });
+    const causes = await Cause.find().populate('ngoId', 'name').sort({ createdAt: -1 })
+        .select('-images.data');
     res.json(causes);
 };
 
@@ -38,6 +43,27 @@ const getCauseById = async (req, res) => {
     const cause = await Cause.findById(req.params.id).populate('ngoId', 'name');
     if (!cause) return res.status(404).json({ error: 'Cause not found.' });
     res.json(cause);
+};
+
+const getCauseImage = async (req, res) => {
+    try {
+        const cause = await Cause.findById(req.params.id);
+        if (!cause) return res.status(404).json({ error: 'Cause not found.' });
+
+        const index = parseInt(req.params.index) || 0;
+        if (!cause.images || !cause.images[index] || !cause.images[index].data) {
+            return res.status(404).json({ error: 'Image not found.' });
+        }
+
+        const img = cause.images[index];
+        const buffer = Buffer.from(img.data, 'base64');
+        res.set('Content-Type', img.contentType || 'image/png');
+        res.set('Cache-Control', 'public, max-age=3600');
+        res.send(buffer);
+    } catch (err) {
+        console.error('Error serving cause image:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
 };
 
 const updateProgress = async (req, res) => {
@@ -51,7 +77,10 @@ const updateProgress = async (req, res) => {
     if (currentAmount !== undefined) cause.currentAmount = currentAmount;
 
     if (req.files && req.files.length > 0) {
-        const newImages = req.files.map((f) => `/public/uploads/causes/${f.filename}`);
+        const newImages = req.files.map((f) => ({
+            data: f.buffer.toString('base64'),
+            contentType: f.mimetype,
+        }));
         cause.images.push(...newImages);
     }
 
@@ -74,7 +103,10 @@ const updateCause = async (req, res) => {
     if (fundedBy !== undefined) cause.fundedBy = fundedBy;
 
     if (req.files && req.files.length > 0) {
-        const newImages = req.files.map((f) => `/public/uploads/causes/${f.filename}`);
+        const newImages = req.files.map((f) => ({
+            data: f.buffer.toString('base64'),
+            contentType: f.mimetype,
+        }));
         cause.images = newImages;
     }
 
@@ -90,8 +122,9 @@ const deleteCause = async (req, res) => {
 };
 
 const getNGOCauses = async (req, res) => {
-    const causes = await Cause.find({ ngoId: req.user._id }).sort({ createdAt: -1 });
+    const causes = await Cause.find({ ngoId: req.user._id }).sort({ createdAt: -1 })
+        .select('-images.data');
     res.json(causes);
 };
 
-module.exports = { createCause, getCauses, getAllCauses, getCauseById, updateProgress, updateCause, deleteCause, getNGOCauses };
+module.exports = { createCause, getCauses, getAllCauses, getCauseById, getCauseImage, updateProgress, updateCause, deleteCause, getNGOCauses };

@@ -157,8 +157,8 @@ const CauseCard = ({ cause }) => {
             transition={{ duration: 0.4 }}
             className="rounded-2xl overflow-hidden glass border border-white/10 hover:border-gold/30 transition-all duration-300"
         >
-            {cause.images && cause.images[0] ? (
-                <img src={`${cause.images[0]}`} alt={cause.title} className="w-full h-48 object-cover" />
+            {cause.images && cause.images.length > 0 ? (
+                <img src={`/api/cause/${cause._id}/image/0`} alt={cause.title} className="w-full h-48 object-cover" />
             ) : (
                 <GradientPlaceholder title={cause.title} />
             )}

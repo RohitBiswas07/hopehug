@@ -26,7 +26,8 @@ const causeSchema = new mongoose.Schema({
     },
     images: [
         {
-            type: String,
+            data: { type: String },
+            contentType: { type: String, default: 'image/png' },
         },
     ],
     fundedBy: {
