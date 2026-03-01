@@ -26,9 +26,12 @@ app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Trust Railway's reverse proxy so rate limiter uses real user IPs
+app.set('trust proxy', 1);
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 500,
   message: { error: 'Too many requests, please try again later.' },
 });
 app.use('/api/', limiter);
