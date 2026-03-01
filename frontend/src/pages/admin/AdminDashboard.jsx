@@ -593,8 +593,9 @@ export default function AdminDashboard() {
                                             onMouseEnter={(e) => e.currentTarget.style.background = '#1a1a1a'}
                                             onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
                                             <td style={s.td}>
-                                                {c.images?.[0] ? (
-                                                    <img src={`${c.images[0]}`} alt="" style={{ width: '40px', height: '40px', borderRadius: '6px', objectFit: 'cover' }} />
+                                                {c.images && c.images.length > 0 ? (
+                                                    <img src={`/api/cause/${c._id}/image/0`} alt="" style={{ width: '40px', height: '40px', borderRadius: '6px', objectFit: 'cover', cursor: 'pointer' }}
+                                                        onClick={() => setScreenshotModal(`/api/cause/${c._id}/image/0`)} />
                                                 ) : (
                                                     <div style={{ width: '40px', height: '40px', borderRadius: '6px', background: '#222', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#C0392B', fontSize: '12px', fontWeight: 700 }}>
                                                         {c.title?.slice(0, 2).toUpperCase()}
