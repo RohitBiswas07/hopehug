@@ -102,16 +102,15 @@ const verifyDonation = async (req, res) => {
             });
         }
 
-        try {
-            await sendDonationVerifiedEmail({
-                to: donation.donorId.email,
-                donorName: donation.donorId.name,
-                amount: donation.amount,
-                causeName: donation.causeId.title,
-                utrId: donation.utrId,
-                date: new Date().toLocaleDateString('en-IN'),
-            });
-        } catch { }
+        // Send email in background (non-blocking)
+        sendDonationVerifiedEmail({
+            to: donation.donorId.email,
+            donorName: donation.donorId.name,
+            amount: donation.amount,
+            causeName: donation.causeId.title,
+            utrId: donation.utrId,
+            date: new Date().toLocaleDateString('en-IN'),
+        }).catch(() => { });
     }
 
     await donation.save();
