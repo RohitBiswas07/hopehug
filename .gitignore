@@ -4,6 +4,5 @@ node_modules/
 dist/
 build/
 public/uploads/
-public/qr-codes/
 *.log
 .DS_Store

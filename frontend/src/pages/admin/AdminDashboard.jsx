@@ -486,7 +486,7 @@ export default function AdminDashboard() {
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
                                         <div style={{ width: '200px', height: '200px', background: '#222', borderRadius: '8px', overflow: 'hidden', border: '1px solid #333' }}>
                                             <img
-                                                src={`/public/qr-codes/upi-qr.png?t=${Date.now()}`}
+                                                src={`/api/admin/qr-code?t=${Date.now()}`}
                                                 alt="Current QR"
                                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                                 onError={(e) => { e.target.src = 'https://via.placeholder.com/200?text=No+QR+Found'; }}

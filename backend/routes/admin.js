@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { adminLogin, createAdmin, listAdmins, removeAdmin, registerAdmin, uploadQr, getSubscribers } = require('../controllers/adminController');
+const { adminLogin, createAdmin, listAdmins, removeAdmin, registerAdmin, uploadQr, getQrCode, getSubscribers } = require('../controllers/adminController');
 const adminProtect = require('../middleware/adminAuth');
 const { uploadQrCode } = require('../utils/upload');
+
+// Public route - no auth needed
+router.get('/qr-code', getQrCode);
 
 router.post('/login', adminLogin);
 router.post('/register', registerAdmin);

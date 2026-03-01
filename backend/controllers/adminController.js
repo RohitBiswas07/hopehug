@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const Subscriber = require('../models/Subscriber');
+const Setting = require('../models/Setting');
 
 const adminLogin = async (req, res) => {
     const { email, password } = req.body;
@@ -115,9 +116,32 @@ const uploadQr = async (req, res) => {
         if (!req.file) {
             return res.status(400).json({ error: 'Please upload an image file' });
         }
-        res.status(200).json({ message: 'UPI QR Code updated successfully', path: `/public/qr-codes/${req.file.filename}` });
+        const base64 = req.file.buffer.toString('base64');
+        const contentType = req.file.mimetype;
+        await Setting.findOneAndUpdate(
+            { key: 'upi_qr' },
+            { key: 'upi_qr', value: base64, contentType },
+            { upsert: true, new: true }
+        );
+        res.status(200).json({ message: 'UPI QR Code updated successfully' });
     } catch (err) {
         console.error('Error uploading QR code:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+const getQrCode = async (req, res) => {
+    try {
+        const setting = await Setting.findOne({ key: 'upi_qr' });
+        if (!setting) {
+            return res.status(404).json({ error: 'QR code not found' });
+        }
+        const img = Buffer.from(setting.value, 'base64');
+        res.set('Content-Type', setting.contentType);
+        res.set('Cache-Control', 'public, max-age=300');
+        res.send(img);
+    } catch (err) {
+        console.error('Error fetching QR code:', err);
         res.status(500).json({ error: 'Server error' });
     }
 };
@@ -132,4 +156,4 @@ const getSubscribers = async (req, res) => {
     }
 };
 
-module.exports = { adminLogin, createAdmin, listAdmins, removeAdmin, registerAdmin, uploadQr, getSubscribers };
+module.exports = { adminLogin, createAdmin, listAdmins, removeAdmin, registerAdmin, uploadQr, getQrCode, getSubscribers };

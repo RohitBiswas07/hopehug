@@ -213,7 +213,7 @@ export default function DonatePage() {
                             <div className="inline-block glass-gold rounded-2xl p-6 mb-6">
                                 <div className="w-56 h-56 bg-white rounded-xl flex items-center justify-center mx-auto overflow-hidden p-2">
                                     <img
-                                        src={`${API_BASE.replace('/api', '')}/public/qr-codes/upi-qr.png?t=${Date.now()}`}
+                                        src={`/api/admin/qr-code?t=${Date.now()}`}
                                         alt="UPI QR Code"
                                         className="w-full h-full object-contain"
                                         onError={(e) => { e.target.src = 'https://via.placeholder.com/200?text=No+QR+Uploaded'; }}

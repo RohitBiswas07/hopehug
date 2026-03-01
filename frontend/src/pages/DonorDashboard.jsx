@@ -155,7 +155,7 @@ export default function DonorDashboard() {
                         </h1>
                         <p className="text-gray-400 mt-1">{new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
                     </div>
-                    <button onClick={() => navigate('/')} className="btn-primary px-6 py-3 text-sm">
+                    <button onClick={() => navigate('/#causes')} className="btn-primary px-6 py-3 text-sm">
                         + Donate Again
                     </button>
                 </div>
@@ -190,7 +190,7 @@ export default function DonorDashboard() {
                                 <div className="text-center py-12">
                                     <div className="text-5xl mb-4">💝</div>
                                     <p className="text-gray-400">No donations yet.</p>
-                                    <button onClick={() => navigate('/')} className="btn-primary mt-4 px-6 py-2 text-sm">Make First Donation</button>
+                                    <button onClick={() => navigate('/#causes')} className="btn-primary mt-4 px-6 py-2 text-sm">Make First Donation</button>
                                 </div>
                             ) : (
                                 <div className="overflow-x-auto">
