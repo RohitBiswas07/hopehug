@@ -4,6 +4,8 @@ A transparent donation platform powered by Mitali Foundation.
 
 Donors can contribute to verified causes, track exactly how their money is used, and receive real-time updates as NGOs upload proof of work.
 
+🌐 **Live:** [hopehug-production.up.railway.app](https://hopehug-production.up.railway.app)
+
 ---
 
 ## Features
@@ -14,7 +16,8 @@ Donors can contribute to verified causes, track exactly how their money is used,
 - Admin verifies each donation manually
 - Real-time donation status tracking for donors
 - NGO panel to manage causes and upload fund utilization proof
-- Secret admin portal for platform management
+- Admin dashboard for platform management
+- All images stored in MongoDB (no filesystem dependency)
 
 ---
 
@@ -23,8 +26,8 @@ Donors can contribute to verified causes, track exactly how their money is used,
 **Frontend:** React, Vite, Tailwind CSS, Framer Motion  
 **Backend:** Node.js, Express  
 **Database:** MongoDB Atlas  
+**Hosting:** Railway (monolithic deployment)  
 **Auth:** JWT (role-based: donor, ngo, admin)  
-**File Uploads:** Multer  
 **Real-time:** Socket.io  
 **Email:** Nodemailer  
 
@@ -75,17 +78,6 @@ npm install
 npm run dev
 ```
 
-### Seed Demo Data
-
-```bash
-cd backend
-npm run seed
-```
-
-Default admin credentials after seeding:  
-Email: `admin@hopehug.com`  
-Password: `Admin@123`
-
 ---
 
 ## Project Structure
@@ -106,8 +98,21 @@ HopeHug/
 │   │   ├── pages/
 │   │   └── App.jsx
 │   └── index.html
+├── package.json
 └── README.md
 ```
+
+---
+
+## Deployment
+
+This project is deployed as a **monolithic app on Railway**. The backend serves the React frontend build and handles all API routes.
+
+**Railway Environment Variables:**
+- `MONGO_URI` — MongoDB Atlas connection string
+- `JWT_SECRET` — JWT secret key
+- `EMAIL_USER` — Email for sending notifications
+- `EMAIL_PASS` — Email app password
 
 ---
 
