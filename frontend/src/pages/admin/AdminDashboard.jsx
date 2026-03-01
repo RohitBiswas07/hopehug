@@ -556,9 +556,9 @@ export default function AdminDashboard() {
                                             <td style={{ ...s.td, fontSize: '11px', color: '#666' }}>{new Date(d.createdAt).toLocaleDateString('en-IN')}</td>
                                             <td style={s.td}>
                                                 {d.status === 'pending' && (
-                                                    <div style={{ display: 'flex', gap: '4px' }}>
-                                                        <button onClick={() => verifyDonation(d._id, 'verified')} style={{ ...s.btn, background: 'rgba(46,204,113,0.12)', color: '#2ecc71', border: '1px solid rgba(46,204,113,0.25)', padding: '6px 12px' }}>✅</button>
-                                                        <button onClick={() => verifyDonation(d._id, 'rejected')} style={{ ...s.btn, background: 'rgba(231,76,60,0.12)', color: '#e74c3c', border: '1px solid rgba(231,76,60,0.25)', padding: '6px 12px' }}>❌</button>
+                                                    <div style={{ display: 'flex', gap: '6px' }}>
+                                                        <button onClick={() => verifyDonation(d._id, 'verified')} style={{ ...s.btn, background: '#2ecc71', color: '#fff', border: 'none', padding: '8px 16px', fontSize: '12px', fontWeight: 700, borderRadius: '6px' }}>Approve</button>
+                                                        <button onClick={() => verifyDonation(d._id, 'rejected')} style={{ ...s.btn, background: '#e74c3c', color: '#fff', border: 'none', padding: '8px 16px', fontSize: '12px', fontWeight: 700, borderRadius: '6px' }}>Decline</button>
                                                     </div>
                                                 )}
                                             </td>
