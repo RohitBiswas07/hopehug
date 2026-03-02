@@ -117,8 +117,7 @@ This project is deployed as a **monolithic app on Railway**. The backend serves 
 ---
 
 ## Environment Variables
-
-Never commit your `.env` file. Create it manually using the format above.
+ `.env` file. Create it manually using the format above.
 
 ---
 
