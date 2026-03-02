@@ -40,46 +40,6 @@ Donors can contribute to verified causes, track exactly how their money is used,
 - MongoDB Atlas account
 - Git
 
-### Clone the repository
-
-```bash
-git clone https://github.com/RohitBiswas07/hopehug.git
-cd hopehug
-```
-
-### Backend Setup
-
-```bash
-cd backend
-npm install
-```
-
-Create a `.env` file in the `backend/` folder:
-
-```
-PORT=5000
-MONGO_URI=your_mongodb_atlas_connection_string
-JWT_SECRET=your_jwt_secret_key
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_email_app_password
-```
-
-Start the backend:
-
-```bash
-npm run dev
-```
-
-### Frontend Setup
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
----
-
 ## Project Structure
 
 ```
