@@ -75,9 +75,10 @@ This project is deployed as a **monolithic app on Railway**. The backend serves 
 - `EMAIL_PASS` — Email app password
 
 ---
+## Environment Variables
+ `.env` file. Create it manually using the format above.
 
-
-
+---
 ## License
 
 This project is built for educational and social impact purposes.  
