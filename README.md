@@ -82,4 +82,4 @@ This project is deployed as a **monolithic app on Railway**. The backend serves 
 ## License
 
 This project is built for educational and social impact purposes.  
-Powered by Mitali Foundation.
+
