@@ -79,8 +79,4 @@ This project is deployed as a **monolithic app on Railway**. The backend serves 
  `.env` file. Create it manually using the format above.
 
 ---
-## License
-
-This project is built for educational and social impact purposes
-Powered by Mitali Foundation.  
 
