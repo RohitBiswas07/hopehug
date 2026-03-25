@@ -4,7 +4,7 @@ A transparent donation platform powered by Mitali Foundation.
 
 Donors can contribute to verified causes, track exactly how their money is used, and receive real-time updates as NGOs upload proof of work.
 
-🌐 **Live:** [hopehug-production.up.railway.app](https://hopehug-production.up.railway.app)
+🌐 **Live:** [hopehug-production.up.railway.app](https://hopehug-production-bfbb.up.railway.app)
 
 ---
 
