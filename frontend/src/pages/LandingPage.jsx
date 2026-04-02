@@ -386,23 +386,30 @@ export default function LandingPage() {
                             Every rupee counts, every story matters.
                         </p>
                         <div className="flex flex-wrap gap-4">
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.97 }}
-                                className="btn-primary text-lg px-8 py-4"
-                                onClick={scrollToCauses}
-                            >
-                                🚀 Start Donating
-                            </motion.button>
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.97 }}
-                                onClick={scrollToCauses}
-                                className="btn-outline text-lg px-8 py-4"
-                            >
-                                See Causes →
-                            </motion.button>
-                        </div>
+  
+ <motion.button
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.97 }}
+    className="btn-primary text-lg px-8 py-4"
+    onClick={() => {
+      if (!user) navigate("/login");
+      else scrollToCauses();
+    }}
+  >
+    🚀 Start Donating
+  </motion.button>
+
+ 
+  <motion.button
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.97 }}
+    onClick={scrollToCauses}
+    className="btn-outline text-lg px-8 py-4"
+  >
+    See Causes →
+  </motion.button>
+
+</div>
                         <div className="mt-10 flex items-center gap-6">
                             <div className="flex -space-x-3">
                                 {['👩', '👨', '👧', '👦'].map((e, i) => (
